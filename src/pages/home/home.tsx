@@ -1,119 +1,213 @@
-import { useState } from 'react'
-import { ArrowRight, CheckCircle, Github, Clipboard } from 'lucide-react'
-import { Button } from "@/components/ui/button/button"
-import Header from "@/pages/home/components/header"
-import { toast } from 'react-hot-toast'
-import Footer from "@/pages/home/components/footer.tsx";
+import toast from "react-hot-toast";
+import { FormEvent } from 'react'
 
 const Home = () => {
-  const [_, setCopiedStates] = useState<{ [key: string]: boolean }>({});
 
-  const handleCopy = (code: string) => navigator.clipboard.writeText(code).then(() => {
-    setCopiedStates((prev) => ({...prev, [code]: true}));
-    toast.success('Successfully copied to clipboard');
-    setTimeout(() => setCopiedStates((prev) => ({...prev, [code]: false})), 2000); // Reset after 2 seconds
-  }).catch((err) => {
-    console.error({msg: 'Failed to copy', err})
-    toast.error("Failed to copy code! Please try again later.")
-  });
+  const submit = async (e: FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    e.stopPropagation();
+    toast.success('Mensaje enviado correctamente');
+  }
 
-  const steps = [
-    { label: "1. Clone the repository", code: "git clone https://github.com/Im-Fran/vite-react-ts-template.git" },
-    { label: "2. Navigate to the project directory", code: "cd vite-react-ts-template" },
-    { label: "3. Install dependencies", code: "bun install" },
-    { label: "4. Start the development server", code: "bun run dev" }
-  ];
-
-  return <div className="min-h-screen bg-white text-gray-900 dark:bg-gray-900 dark:text-white">
-    <Header/>
-
-    <main>
-      <section className="bg-gradient-to-b from-blue-600 to-white py-20 text-center dark:from-blue-800 dark:to-gray-900">
-        <div className="container mx-auto px-4">
-          <h1 className="text-4xl font-extrabold tracking-tight sm:text-5xl md:text-6xl">
-            Vite + React + TS Template
-          </h1>
-          <p className="mt-6 text-xl text-gray-500 dark:text-gray-400 max-w-3xl mx-auto">
-            Jumpstart your project with our powerful, feature-rich template combining Vite, React, TypeScript, SWC,
-            TailwindCSS v4, and React Router.
+  return <div className="flex flex-col min-h-screen">
+    {/* Hero Section */}
+    <header className="bg-gradient-to-b from-teal-800 to-white">
+      <div className="container px-4 py-16 mx-auto">
+        <div className="flex flex-col items-center text-center gap-6">
+          <div className="rounded-full bg-white p-6 shadow-sm">
+            <h1 className="flex items-center text-2xl font-bold tracking-tighter sm:text-3xl md:text-6xl text-teal-900">
+              <img className="h-20" src="/casaalba.png" alt="Casa Alba" />
+              Casa Alba
+            </h1>
+          </div>
+          <p className="max-w-[600px] text-gray-800 md:text-xl">
+            Somos una marca propia con artículos de excelente calidad.
           </p>
-          <div className="mt-10 flex justify-center space-x-4">
-            <Button size="lg">
-              <a href="#getting-started">Get Started</a>
-            </Button>
-            <Button variant="ghostOutline" size="lg">
-              <a className={"flex"} href="https://github.com/Im-Fran/vite-react-ts-template">
-                <Github className="mr-2 h-5 w-5" />
-                View on GitHub
-              </a>
-            </Button>
-          </div>
+          {/*<button className="bg-teal-700 hover:bg-teal-800 text-white font-bold py-2 px-4 rounded">*/}
+          {/*  Ver Productos*/}
+          {/*</button>*/}
         </div>
-      </section>
+      </div>
+    </header>
 
-      <section id="features" className="py-20 dark:bg-gray-900">
-        <div className="container mx-auto px-4">
-          <h2 className="text-3xl font-bold text-center mb-12 dark:text-white">Features</h2>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {[
-              "Vite: Lightning fast build tool",
-              "React: Powerful UI library",
-              "TypeScript: Static typing for better development",
-              "SWC: Super-fast JavaScript/TypeScript compiler",
-              "TailwindCSS v4: Utility-first CSS framework",
-              "React Router: Declarative routing for React",
-              "React Hot Toast: Lightweight toast notifications",
-              "Class Variance Authority: Reusable component variants",
-              "Bun.sh: All-in-one JavaScript runtime & toolkit"
-            ].map((feature, index) => <div key={index} className="flex items-start space-x-3 bg-white p-4 rounded-lg shadow dark:bg-gray-700">
-                <CheckCircle className="h-6 w-6 text-blue-600 flex-shrink-0 dark:text-blue-300" />
-                <span className="dark:text-white">{feature}</span>
-              </div>)}
-          </div>
-        </div>
-      </section>
-
-      <section id="getting-started" className="py-20 bg-gray-100 dark:bg-gray-900">
-        <div className="container mx-auto px-4">
-          <h2 className="text-3xl font-bold text-center mb-12 dark:text-white">Getting Started</h2>
-          <div className="max-w-2xl mx-auto space-y-6">
-            {steps.map((step, index) => <div key={index} className="bg-white p-6 rounded-lg shadow dark:bg-gray-700">
-                <h3 className="font-semibold mb-2 dark:text-white">{step.label}</h3>
-                <div className="relative">
-                  <code className="block bg-gray-200 p-2 rounded text-sm dark:bg-gray-800 dark:text-white">
-                    {step.code}
-                  </code>
-                  <button
-                    onClick={() => handleCopy(step.code)}
-                    className="absolute top-2 right-2 text-blue-600 dark:text-blue-300"
-                  >
-                    <Clipboard className="h-5 w-5" />
-                  </button>
+    {/* Products Section */}
+    <section className="py-16 bg-white">
+      <div className="container px-4 mx-auto">
+        <h2 className="text-3xl font-bold text-center mb-12 text-teal-800">Nuestros Productos</h2>
+        <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-3">
+          <div className="bg-white rounded-lg shadow-md overflow-hidden">
+            <div className="p-6">
+              <div className="aspect-square relative mb-4 bg-[#BEEED6] rounded-lg">
+                <div className="absolute inset-0 flex items-center justify-center">
+                  <img
+                    alt="Detergente Líquido"
+                    className="object-cover w-3/4"
+                    src="/productos/detergente_liquido.png"
+                  />
                 </div>
-              </div>)}
+              </div>
+              <h3 className="text-xl font-semibold mb-2 text-teal-800">Detergente Líquido Biodegradable</h3>
+              <p className="text-gray-700 mb-4">5 Litros</p>
+              <p className="text-2xl font-bold text-teal-700">$6.900</p>
+            </div>
+          </div>
+
+          <div className="bg-white rounded-lg shadow-md overflow-hidden">
+            <div className="p-6">
+              <div className="aspect-square relative mb-4 bg-[#BEEED6] rounded-lg">
+                <div className="absolute inset-0 flex items-center justify-center">
+                  <img
+                    alt="Lavalozas"
+                    className="object-cover w-3/4"
+                    src="/productos/lavalozas.png"
+                  />
+                </div>
+              </div>
+              <h3 className="text-xl font-semibold mb-2 text-teal-800">Lavalozas</h3>
+              <p className="text-gray-700 mb-4">5 Litros</p>
+              <p className="text-2xl font-bold text-teal-700">$4.800</p>
+            </div>
+          </div>
+
+          <div className="bg-white rounded-lg shadow-md overflow-hidden">
+            <div className="p-6">
+              <div className="aspect-square relative mb-4 bg-[#BEEED6] rounded-lg">
+                <div className="absolute inset-0 flex items-center justify-center">
+                  <img
+                    alt="Jabón de Glicerina"
+                    className="object-cover w-3/4"
+                    src="/productos/jabon_glicerina.png"
+                  />
+                </div>
+              </div>
+              <h3 className="text-xl font-semibold mb-2 text-teal-800">Jabón de Glicerina</h3>
+              <p className="text-gray-700 mb-4">5 Litros</p>
+              <p className="text-2xl font-bold text-teal-700">$6.000</p>
+            </div>
           </div>
         </div>
-      </section>
+      </div>
+    </section>
 
-      <section className="py-20 bg-neutral-50 dark:bg-gray-900">
-        <div className="container mx-auto px-4 text-center">
-          <h2 className="text-3xl font-bold mb-6 dark:text-white">Ready to Supercharge Your Development?</h2>
-          <p className="text-xl text-gray-500 mb-10 max-w-2xl mx-auto dark:text-gray-400">
-            Get started with our Vite + React + TS template today and experience the perfect blend of speed, type safety,
-            and developer experience.
-          </p>
-          <Button size="lg">
-            <a className={"flex"} href="https://github.com/Im-Fran/vite-react-ts-template">
-              Get Started Now
-              <ArrowRight className="ml-2 h-5 w-5" />
-            </a>
-          </Button>
+    {/* Features Section */}
+    <section className="py-16 bg-[#BEEED6]">
+      <div className="container px-4 mx-auto">
+        <div className="grid gap-8 md:grid-cols-3">
+          <div className="text-center">
+            <div className="rounded-full bg-teal-200 w-16 h-16 flex items-center justify-center mx-auto mb-4">
+              <svg
+                className="w-8 h-8 text-teal-700"
+                fill="none"
+                height="24"
+                stroke="currentColor"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth="2"
+                viewBox="0 0 24 24"
+                width="24"
+              >
+                <path d="M12 22c5.523 0 10-4.477 10-10S17.523 2 12 2 2 6.477 2 12s4.477 10 10 10z"/>
+                <path d="m9 12 2 2 4-4"/>
+              </svg>
+            </div>
+            <h3 className="text-xl font-semibold mb-2 text-teal-800">Calidad Premium</h3>
+            <p className="text-gray-700">Productos concentrados de alta eficacia</p>
+          </div>
+          <div className="text-center">
+            <div className="rounded-full bg-teal-200 w-16 h-16 flex items-center justify-center mx-auto mb-4">
+              <svg
+                className="w-8 h-8 text-teal-700"
+                fill="none"
+                height="24"
+                stroke="currentColor"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth="2"
+                viewBox="0 0 24 24"
+                width="24"
+              >
+                <path d="M3 7V5c0-1.1.9-2 2-2h2"/>
+                <path d="M17 3h2c1.1 0 2 .9 2 2v2"/>
+                <path d="M21 17v2c0 1.1-.9 2-2 2h-2"/>
+                <path d="M7 21H5c-1.1 0-2-.9-2-2v-2"/>
+                <rect height="8" width="8" x="8" y="8"/>
+              </svg>
+            </div>
+            <h3 className="text-xl font-semibold mb-2 text-teal-800">Rendimiento</h3>
+            <p className="text-gray-700">Mayor duración por su fórmula concentrada</p>
+          </div>
+          <div className="text-center">
+            <div className="rounded-full bg-teal-200 w-16 h-16 flex items-center justify-center mx-auto mb-4">
+              <svg
+                className="w-8 h-8 text-teal-700"
+                fill="none"
+                height="24"
+                stroke="currentColor"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth="2"
+                viewBox="0 0 24 24"
+                width="24"
+              >
+                <path
+                  d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"/>
+              </svg>
+            </div>
+            <h3 className="text-xl font-semibold mb-2 text-teal-800">Satisfacción</h3>
+            <p className="text-gray-700">Garantía de calidad en cada producto</p>
+          </div>
         </div>
-      </section>
-    </main>
+      </div>
+    </section>
 
-    <Footer/>
-  </div>;
+    {/* Contact Section */}
+    <section className="py-16 bg-white">
+      <div className="container px-4 mx-auto">
+        <h2 className="text-3xl font-bold text-center mb-12 text-teal-800">Contáctanos</h2>
+        <form onSubmit={submit} className="max-w-lg mx-auto bg-[#BEEED6] p-8 rounded-lg shadow-md">
+          <div className="mb-4">
+            <label htmlFor="name" className="block text-lg font-medium text-teal-800">Nombre</label>
+            <input
+              type="text"
+              id="name"
+              name="name"
+              className="w-full px-4 py-2 border rounded-lg text-gray-700"
+              required
+            />
+          </div>
+          <div className="mb-4">
+            <label htmlFor="email" className="block text-lg font-medium text-teal-800">Correo Electrónico</label>
+            <input
+              type="email"
+              id="email"
+              name="email"
+              className="w-full px-4 py-2 border rounded-lg text-gray-700"
+              required
+            />
+          </div>
+          <div className="mb-4">
+            <label htmlFor="message" className="block text-lg font-medium text-teal-800">Mensaje</label>
+            <textarea
+              id="message"
+              name="message"
+              rows={4}
+              className="w-full px-4 py-2 border rounded-lg text-gray-700"
+              required
+            />
+          </div>
+          <button type="submit" className="bg-teal-700 hover:bg-teal-800 text-white font-bold py-2 px-4 rounded">
+            Enviar Mensaje
+          </button>
+        </form>
+      </div>
+    </section>
+
+    <footer className="bg-gradient-to-b from-white to-teal-800">
+      <div className="container px-4 py-8 mx-auto text-center text-white">
+        <p>&copy; {new Date().getFullYear()} Casa Alba. Todos los derechos reservados.</p>
+      </div>
+    </footer>
+  </div>
 };
 
-export default Home;
+export default Home
